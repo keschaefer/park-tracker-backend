@@ -9,6 +9,10 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(cors())
 
+app.get('/', (req, res) => {
+   queries.listAll().then(parks => {res.send(parks)})
+})
+
 // app.use((req, res) => {
 //    res.status(404).json({error: {message: 'data not found'}})
 // })
