@@ -1,7 +1,7 @@
-const database = require('database-connection')
+const database = require('./database-connection')
 
 module.exports = {
    listAll() {
-      return database('national-parks')
+      return database('national_parks')
    }
 }

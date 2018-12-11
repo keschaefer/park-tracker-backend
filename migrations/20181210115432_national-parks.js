@@ -1,4 +1,3 @@
-
 exports.up = function(knex, Promise) {
    return knex.schema.createTable('national_parks', (park) => {
       park.increments('id')
