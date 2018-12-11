@@ -18,7 +18,7 @@ exports.seed = function(knex, Promise) {
           name: 'Carlsbad Caverns National Park',
           description: 'High ancient sea ledges, deep rocky canyons, flowering cactus, and desert wildlife—treasures above the ground in the Chihuahuan Desert. Hidden beneath the surface are more than 119 caves—formed when sulfuric acid dissolved limestone leaving behind caverns of all sizes.',
           state: 'New Mexico',
-          image: 'https://dl.dropboxcontent.com/s/xq2ucm1k4rsf5cr/Carlsbad%20Caverns.jpg',
+          image: 'https://dl.dropboxcontent.com/s/a1andh4o2nezvko/Carlsbad.jpg'
         }
       ]);
     });
