@@ -4,13 +4,22 @@ const port = process.env.PORT || 3001
 const bodyParser = require('body-parser')
 const cors = require('cors')
 const queries = require('./queries.js')
+const bcrypt = require('bcrypt');
+const saltRounds = 12;
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(cors())
 
 app.post('/createuser', (req, res) => {
-   queries.createUser(req.body).then(user => {res.send(user[0])})
+   const userNewPassword = bcrypt.hashSync(req.body.password, saltRounds);
+   const newUser = {
+      first_name: req.body.first_name,
+      last_name: req.body.last_name,
+      email:  req.body.email,
+      password: userNewPassword,
+    }
+   queries.createUser(newUser).then(user => {res.send(user[0])})
 })
 
 app.get('/', (req, res) => {
