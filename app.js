@@ -9,8 +9,16 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(cors())
 
+app.post('/createuser', (req, res) => {
+   queries.createUser(req.body).then(user => {res.send(user[0])})
+})
+
 app.get('/', (req, res) => {
    queries.listAll().then(parks => {res.send(parks)})
+})
+
+app.get('/users', (req, res) => {
+   queries.listAllUsers().then(parks => {res.send(parks)})
 })
 
 app.use((req, res) => {
