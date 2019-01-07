@@ -7,6 +7,9 @@ module.exports = {
    listAllUsers() {
       return database('users')
    },
+   listSingleUser(email) {
+      return database('users').where({email: email})
+   },
    createUser(newUser) {
       return database('users').insert(newUser).returning('*')
    }

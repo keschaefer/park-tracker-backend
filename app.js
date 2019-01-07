@@ -22,6 +22,25 @@ app.post('/createuser', (req, res) => {
    queries.createUser(newUser).then(user => {res.send(user[0])})
 })
 
+app.get('/signin/:email/:password', (req, res) => {
+   queries.listSingleUser(req.params.email).then(user => {
+      if(user.length < 1) {
+         res.status(404).send("This user doesn't exist")
+      } else {
+         return bcrypt.compare(req.params.password, user[0].password)
+         .then(isGood => {
+            if (isGood) {
+               res.send(user)
+            } else {
+               res.status(400).send("Incorrect password")
+            }
+         })
+      }
+   })
+})
+
+
+
 app.get('/', (req, res) => {
    queries.listAll().then(parks => {res.send(parks)})
 })
