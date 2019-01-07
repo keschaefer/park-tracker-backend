@@ -11,7 +11,7 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(cors())
 
-app.post('/createuser', (req, res) => {
+app.post('/createuser', (req, res, next) => {
    const userNewPassword = bcrypt.hashSync(req.body.password, saltRounds);
    const newUser = {
       first_name: req.body.first_name,
@@ -19,24 +19,27 @@ app.post('/createuser', (req, res) => {
       email:  req.body.email,
       password: userNewPassword,
     }
-   queries.createUser(newUser).then(user => {res.send(user[0])})
+   queries.createUser(newUser)
+   .then(user => {res.send(user[0])})
+   .catch(next)
 })
 
-app.get('/signin/:email/:password', (req, res) => {
-   queries.listSingleUser(req.params.email).then(user => {
+app.post('/signin', (req, res, next) => {
+   queries.listSingleUser(req.body.email).then(user => {
       if(user.length < 1) {
-         res.status(404).send("This user doesn't exist")
+         res.status(404).send({message: {error:"This user doesn't exist"}})
       } else {
-         return bcrypt.compare(req.params.password, user[0].password)
+         return bcrypt.compare(req.body.password, user[0].password)
          .then(isGood => {
             if (isGood) {
                res.send(user)
             } else {
-               res.status(400).send("Incorrect password")
+               res.status(400).send({message: {error: "Incorrect password"}})
             }
          })
       }
    })
+   .catch(next)
 })
 
 
@@ -54,8 +57,9 @@ app.use((req, res) => {
 })
 
 app.use((err, req, res, next) => {
+   console.log("ERROR", err)
    const status = err.status || 500
-   res.status(status).json({ error: err })
+   res.status(status).json({ error: err.message })
   })
 
 const listener = () => `Listening on port ${port}`
