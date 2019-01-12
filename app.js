@@ -42,14 +42,18 @@ app.post('/signin', (req, res, next) => {
    .catch(next)
 })
 
-
-
 app.get('/', (req, res) => {
    queries.listAll().then(parks => {res.send(parks)})
 })
 
 app.get('/users', (req, res) => {
    queries.listAllUsers().then(parks => {res.send(parks)})
+})
+
+app.get('/userparks/:id', (req, res, next) => {
+   console.log(req.params.id)
+   queries.listUserParks(req.params.id).then(parks => {res.send(parks)})
+   .catch(next)
 })
 
 app.use((req, res) => {
@@ -66,4 +70,4 @@ const listener = () => `Listening on port ${port}`
 
 app.listen(port, listener)
 
-module.exports = app
+

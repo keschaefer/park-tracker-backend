@@ -7,6 +7,9 @@ module.exports = {
    listAllUsers() {
       return database('users')
    },
+   listUserParks(user_id) {
+      return database('join-users-parks').where('user_id', user_id)
+   },
    listSingleUser(email) {
       return database('users').where({email: email})
    },
